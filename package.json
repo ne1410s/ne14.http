@@ -1,0 +1,41 @@
+{
+  "name": "@ne1410s/http",
+  "version": "0.0.1",
+  "description": "ES Http Utilities",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "rollup -cm",
+    "test": "npm run clean && npm run build && mocha --exit",
+    "publish-patch": "npm version patch && npm run test && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ne1410s/ne14.http.git"
+  },
+  "keywords": [
+    "ES",
+    "Http",
+    "Utilities"
+  ],
+  "author": "ne1410s <pgj646@gmail.com> (http://ne1410s.co.uk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ne1410s/ne14.http/issues"
+  },
+  "homepage": "https://github.com/ne1410s/ne14.http#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.9.0",
+    "mocha": "^5.2.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.1",
+    "rollup-plugin-typescript2": "^0.18.0",
+    "typescript": "^3.1.6"
+  }
+}
