@@ -7,7 +7,7 @@
       "outDir": "./dist",
       "target": "es5",
       "lib": [
-        "dom", "dom.iterable",
+        "dom",
         "scripthost",
         "es5",
         "es6",

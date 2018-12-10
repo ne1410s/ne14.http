@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript2'
 import pkg from './package.json'
 
 export default {
-    input: './src/example/acme2service.ts',
+    input: './src/example/acme.ts',
     output: [
         {
             file: pkg.main,

@@ -1,16 +1,19 @@
 const expect = require('chai').expect;
+const fetch = require('node-fetch');
+global.Headers = fetch.Headers;
+
 const ne14 = {
     http: require('../dist/index')
 };
 
 describe('#example', () => {
 
-    it('should do things', async () => {
+    it('should provide a token', async () => {
+
         var env = ne14.http.Acme2Environment.Staging;
         var sut = new ne14.http.Acme2Service(env);
-        var req = new ne14.http.GetTokenRequest();
-        var result = await sut.getTokenOp.invoke(req);
+        var result = await sut.getToken() || '';
 
-        console.log(result);
+        expect(result).to.not.be.empty;
     });
 });
