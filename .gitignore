@@ -62,4 +62,5 @@ typings/
 
 /.rpt2_cache
 
-/dist
+/dist/*
+!/dist/index.d.ts
