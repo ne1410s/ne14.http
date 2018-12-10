@@ -1,5 +1,5 @@
 import { OperationBase } from "./base";
-const fetch = require('node-fetch');
+require('isomorphic-fetch');
 
 export default abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
 

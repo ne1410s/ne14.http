@@ -1,6 +1,4 @@
 const expect = require('chai').expect;
-const fetch = require('node-fetch');
-global.Headers = fetch.Headers;
 
 const ne14 = {
     http: require('../dist/index')
