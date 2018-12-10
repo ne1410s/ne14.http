@@ -7,7 +7,7 @@ export enum Acme2Environment {
     Production = 'https://acme-v02.api.letsencrypt.org/acme'
 }
 
-export class TokenOperation extends JsonBodylessOperation<string> {
+class TokenOperation extends JsonBodylessOperation<string> {
     
     async deserialise(response: Response): Promise<string> {
 
@@ -31,7 +31,7 @@ export class TokenOperation extends JsonBodylessOperation<string> {
 export class Acme2Service {
     
     public readonly baseUrl: string;
-    
+
     private readonly tokenOperation: TokenOperation;
 
     constructor(env: Acme2Environment) {
