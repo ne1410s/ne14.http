@@ -3,7 +3,7 @@ import { IOperation } from "../operation/base";
 /**
  * 
  */
-export default class OperationInvocationError<TRequest, TResponse, TOperation extends IOperation<TRequest, TResponse>> extends Error {
+export class OperationInvocationError<TRequest, TResponse, TOperation extends IOperation<TRequest, TResponse>> extends Error {
 
     constructor(
             public readonly error: any,

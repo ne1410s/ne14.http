@@ -1,4 +1,4 @@
-import HttpOperation from "./http";
+import { HttpOperation } from "./http";
 
 export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<TRequest, TResponse> {
 

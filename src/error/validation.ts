@@ -1,7 +1,7 @@
 /**
  * 
  */
-export default class ValidationError<TModel> extends Error {
+export class ValidationError<TModel> extends Error {
 
     constructor(
             public model: TModel,

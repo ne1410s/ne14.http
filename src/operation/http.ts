@@ -1,7 +1,7 @@
 import { OperationBase } from "./base";
 require('isomorphic-fetch');
 
-export default abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
+export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
 
     readonly headers: Headers;
 
