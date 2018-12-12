@@ -16,7 +16,10 @@ export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<T
     /**
      * @inheritdoc
      */
-    serialise(requestData: TRequest): string {
+    async serialise(requestData: TRequest): Promise<string> {
+
+        await Promise.resolve();
+        
         return requestData ? JSON.stringify(requestData) : null;
     }
     

@@ -19,7 +19,7 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
      * 
      * @param requestData Request data.
      */
-    abstract serialise(requestData: TRequest): string;
+    async abstract serialise(requestData: TRequest): Promise<string>;
 
     /**
      * 
@@ -48,7 +48,7 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
                     runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
 
                 } else {
-                    runParams.body = this.serialise(requestData);
+                    runParams.body = await this.serialise(requestData);
                 }
             } catch (error) {
                 throw new SerialisationError('An error occurred serialising the request', requestData, error);
