@@ -1,4 +1,4 @@
-import { OperationInvocationError } from "../error/operationInvocation";
+import { OperationInvocationError } from "../error/operation";
 
 /**
  * A contract for that which generates a response from a request.
@@ -45,7 +45,7 @@ export abstract class OperationBase<TRequest, TResponse> implements IOperation<T
             responseData = await this.invokeInternal(requestData);
         }
         catch (error) {
-            throw new OperationInvocationError(error, this, requestData, responseData);
+            throw new OperationInvocationError('An error occurred invoking the operation', this, requestData, error);
         }
 
         this.validateResponse(responseData);
@@ -65,7 +65,7 @@ export abstract class OperationBase<TRequest, TResponse> implements IOperation<T
 
     /**
      * 
-     * @param requestData 
+     * @param requestData The request data.
      */
     protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
 }

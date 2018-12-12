@@ -1,17 +1,26 @@
-
+/**
+ * Thrown when serialisation was not successful.
+ */
 export class SerialisationError<TModel> extends Error {
 
     constructor(
-            public model: TModel) {
+            public readonly message: string,
+            public readonly model: TModel,
+            public readonly cause?: any) {
 
-        super("The model data could not be serialised");
+        super(message);
     }
 }
 
+/**
+ * Thrown when deserialisation was not successful.
+ */
 export class DeserialisationError extends Error {
 
-    constructor() {
+    constructor(
+            public readonly message: string,
+            public readonly cause?: any) {
 
-        super("The model data could not be deserialised");
+        super(message);
     }
 }

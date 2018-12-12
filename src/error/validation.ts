@@ -1,12 +1,13 @@
 /**
- * 
+ * Thrown when a model is deemed to be invalid.
  */
 export class ValidationError<TModel> extends Error {
 
     constructor(
+            public message: string,
             public model: TModel,
-            public messages?: Array<string>) {
+            public errors?: Array<string>) {
 
-        super("The data is invalid");
+        super(message);
     }
 }

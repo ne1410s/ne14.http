@@ -1,4 +1,5 @@
 import { OperationBase } from "./base";
+import { DeserialisationError, SerialisationError } from "../error/serialisation";
 require('isomorphic-fetch');
 
 export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
@@ -17,16 +18,20 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
     /**
      * 
      * @param requestData Request data.
-     * @throws {SerialisationError}
      */
     abstract serialise(requestData: TRequest): string;
 
     /**
+     * 
      * @param response The http response.
-     * @throws {DeserialisationError}
      */
     async abstract deserialise(response: Response): Promise<TResponse>;
 
+    /**
+     * @inheritdoc
+     * @throws {SerialisationError}
+     * @throws {DeserialisationError}
+     */
     protected async invokeInternal(requestData: TRequest): Promise<TResponse> {
         
         let runUrl = this.url;
@@ -38,17 +43,26 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
         // Incorporate request data according to verb
         if (requestData != null) {
 
-            if (this.verb === 'get') {
-                runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
+            try {
+                if (this.verb === 'get' || this.verb === 'head') {
+                    runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
 
-            } else {
-                runParams.body = this.serialise(requestData);
+                } else {
+                    runParams.body = this.serialise(requestData);
+                }
+            } catch (error) {
+                throw new SerialisationError('An error occurred serialising the request', requestData, error);
             }
         }
 
         const response = await fetch(runUrl, runParams);
 
-        return this.deserialise(response);
+        try {
+            return await this.deserialise(response);
+        }
+        catch (error) {
+            throw new DeserialisationError('An error occurred deserialising the response', error);
+        }
     }
 
     private serialiseQuery(requestData: TRequest): string {        
