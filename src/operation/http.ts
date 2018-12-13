@@ -1,5 +1,6 @@
 import { OperationBase } from "./base";
 import { DeserialisationError, SerialisationError } from "../error/serialisation";
+
 require('isomorphic-fetch');
 
 export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
@@ -30,8 +31,9 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
     /**
      * 
      * @param response The http response.
+     * @param requestData Request data.
      */
-    async abstract deserialise(response: Response): Promise<TResponse>;
+    async abstract deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
 
     /**
      * @inheritdoc
@@ -64,7 +66,7 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
         const response = await fetch(runUrl, runParams);
 
         try {
-            return await this.deserialise(response);
+            return await this.deserialise(response, requestData);
         }
         catch (error) {
             throw new DeserialisationError('An error occurred deserialising the response', error);

@@ -26,7 +26,7 @@ export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<T
     /**
      * @inheritdoc
      */
-    async deserialise(response: Response): Promise<TResponse> {
+    async deserialise(response: Response, requestData: TRequest): Promise<TResponse> {
         const raw = await response.text();
         return JSON.parse(raw);
     }
