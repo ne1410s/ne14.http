@@ -6,13 +6,19 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
 
     readonly headers: Headers;
 
+    protected _url: string;
+    get url(): string {
+        return this._url;
+    }
+
     constructor (
-            public readonly url: string,
+            url: string,
             public readonly verb: 'get' | 'head' | 'post' | 'put' | 'delete' = 'get',
             headers?: HeadersInit) {
 
         super();
         this.headers = new Headers(headers);
+        this._url = url;
     }
 
     /**
