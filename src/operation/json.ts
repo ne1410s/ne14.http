@@ -3,8 +3,8 @@ import { HttpOperation } from "./http";
 export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<TRequest, TResponse> {
 
     constructor (
-            public readonly url: string,
-            public readonly verb: 'get' | 'head' | 'post' | 'put' | 'delete' = 'get',
+            url: string,
+            verb: 'get' | 'head' | 'post' | 'put' | 'delete' = 'get',
             headers?: HeadersInit) {
 
         super(url, verb, headers);
@@ -35,8 +35,8 @@ export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<T
 export abstract class JsonBodylessOperation<TResponse> extends JsonOperation<any, TResponse> {
 
     constructor (
-            public readonly url: string,
-            public readonly verb: 'get' | 'head' = 'get',
+            url: string,
+            verb: 'get' | 'head' = 'get',
             headers?: HeadersInit) {
 
         super(url, verb, headers);
