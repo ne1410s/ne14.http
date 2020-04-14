@@ -1,4 +1,4 @@
-import { OperationInvocationError } from "../error/operation";
+import { OperationInvocationError } from '../error/operation';
 
 /**
  * A contract for that which generates a response from a request.

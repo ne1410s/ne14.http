@@ -1,5 +1,5 @@
-import { OperationBase } from "./base";
-import { DeserialisationError, SerialisationError } from "../error/serialisation";
+import { OperationBase } from './base';
+import { DeserialisationError, SerialisationError } from '../error/serialisation';
 
 require('isomorphic-fetch');
 

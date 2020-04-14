@@ -1,8 +1,9 @@
-const ne14_http = require('../dist/index');
+const expect = require('chai').expect;
+const ne_http = require('../dist/ne14_http.umd.min');
 
 describe('#example', () => {
 
     it('should ...', () => {
-        console.log(ne14_http);
+        console.log(ne_http);
     });
 });

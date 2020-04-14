@@ -1,4 +1,4 @@
-import { IOperation } from "../operation/base";
+import { IOperation } from '../operation/base';
 
 /**
  * Thrown when an operation was not invoked successfully.
