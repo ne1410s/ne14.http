@@ -5,75 +5,75 @@ require('isomorphic-fetch');
 
 export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
 
-    readonly headers: Headers;
+  readonly headers: Headers;
 
-    protected _url: string;
-    get url(): string {
-        return this._url;
-    }
+  protected _url: string;
+  get url(): string {
+    return this._url;
+  }
 
-    constructor (
-            url: string,
-            public readonly verb: 'get' | 'head' | 'post' | 'put' | 'delete' = 'get',
-            headers?: HeadersInit) {
+  constructor(
+      url: string,
+      public readonly verb: 'get' | 'head' | 'post' | 'put' | 'patch' | 'delete' = 'get',
+      headers?: HeadersInit) {
 
-        super();
-        this.headers = new Headers(headers);
-        this._url = url;
-    }
+    super();
+    this.headers = new Headers(headers);
+    this._url = url;
+  }
 
-    /**
-     * 
-     * @param requestData Request data.
-     */
-    async abstract serialise(requestData: TRequest): Promise<string>;
+  /**
+   * 
+   * @param requestData Request data.
+   */
+  async abstract serialise(requestData: TRequest): Promise<string>;
 
-    /**
-     * 
-     * @param response The http response.
-     * @param requestData Request data.
-     */
-    async abstract deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
+  /**
+   * 
+   * @param response The http response.
+   * @param requestData Request data.
+   */
+  async abstract deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
 
-    /**
-     * @inheritdoc
-     * @throws {SerialisationError}
-     * @throws {DeserialisationError}
-     */
-    protected async invokeInternal(requestData: TRequest): Promise<TResponse> {
-        
-        let runUrl = this.url;
-        const runParams: RequestInit = {
-            method: this.verb,
-            headers: this.headers,
-        };
+  /**
+   * @inheritdoc
+   * @throws {SerialisationError}
+   * @throws {DeserialisationError}
+   */
+  protected async invokeInternal(requestData: TRequest): Promise<TResponse> {
 
-        // Incorporate request data according to verb
-        if (requestData != null) {
+    let runUrl = this.url;
+    const runParams: RequestInit = {
+      method: this.verb,
+      headers: this.headers,
+    };
 
-            try {
-                if (this.verb === 'get' || this.verb === 'head') {
-                    runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
+    // Incorporate request data according to verb
+    if (requestData != null) {
 
-                } else {
-                    runParams.body = await this.serialise(requestData);
-                }
-            } catch (error) {
-                throw new SerialisationError('An error occurred serialising the request', requestData, error);
-            }
+      try {
+        if (this.verb === 'get' || this.verb === 'head') {
+          runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
+
+        } else {
+          runParams.body = await this.serialise(requestData);
         }
-
-        const response = await fetch(runUrl, runParams);
-
-        try {
-            return await this.deserialise(response, requestData);
-        }
-        catch (error) {
-            throw new DeserialisationError('An error occurred deserialising the response', error);
-        }
+      } catch (error) {
+        throw new SerialisationError('An error occurred serialising the request', requestData, error);
+      }
     }
 
-    private serialiseQuery(requestData: TRequest): string {        
-        return Object.keys(requestData).map(k => k + '=' + encodeURIComponent((requestData as any)[k])).join('&');
+    const response = await fetch(runUrl, runParams);
+
+    try {
+      return await this.deserialise(response, requestData);
     }
+    catch (error) {
+      throw new DeserialisationError('An error occurred deserialising the response', error);
+    }
+  }
+
+  private serialiseQuery(requestData: TRequest): string {
+    return Object.keys(requestData).map(k => k + '=' + encodeURIComponent((requestData as any)[k])).join('&');
+  }
 }

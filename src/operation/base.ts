@@ -5,26 +5,26 @@ import { OperationInvocationError } from '../error/operation';
  */
 export interface IOperation<TRequest, TResponse> {
 
-    /**
-     * Performs the commands necessary to yield a response.
-     * @param requestData The request data.
-     * @throws {OperationInvocationError}
-     */
-    invoke(requestData: TRequest): Promise<TResponse>;
+  /**
+   * Performs the commands necessary to yield a response.
+   * @param requestData The request data.
+   * @throws {OperationInvocationError}
+   */
+  invoke(requestData: TRequest): Promise<TResponse>;
 
-    /**
-     * Checks the data in a request.
-     * @param requestData The request data.
-     * @throws {ValidationError}
-     */
-    validateRequest(requestData: TRequest): void;
+  /**
+   * Checks the data in a request.
+   * @param requestData The request data.
+   * @throws {ValidationError}
+   */
+  validateRequest(requestData: TRequest): void;
 
-    /**
-     * Checks the data in a response.
-     * @param responseData The response data.
-     * @throws {ValidationError}
-     */
-    validateResponse(responseData: TResponse): void;
+  /**
+   * Checks the data in a response.
+   * @param responseData The response data.
+   * @throws {ValidationError}
+   */
+  validateResponse(responseData: TResponse): void;
 }
 
 /**
@@ -32,40 +32,40 @@ export interface IOperation<TRequest, TResponse> {
  */
 export abstract class OperationBase<TRequest, TResponse> implements IOperation<TRequest, TResponse> {
 
-    /**
-     * @inheritdoc
-     */
-    async invoke(requestData: TRequest): Promise<TResponse> {
+  /**
+   * @inheritdoc
+   */
+  async invoke(requestData: TRequest): Promise<TResponse> {
 
-        this.validateRequest(requestData);
+    this.validateRequest(requestData);
 
-        let responseData: TResponse;
+    let responseData: TResponse;
 
-        try {
-            responseData = await this.invokeInternal(requestData);
-        }
-        catch (error) {
-            throw new OperationInvocationError('An error occurred invoking the operation', this, requestData, error);
-        }
-
-        this.validateResponse(responseData);
-
-        return responseData;
+    try {
+      responseData = await this.invokeInternal(requestData);
+    }
+    catch (error) {
+      throw new OperationInvocationError('An error occurred invoking the operation', this, requestData, error);
     }
 
-    /**
-     * @inheritdoc
-     */
-    abstract validateRequest(requestData: TRequest): void;
+    this.validateResponse(responseData);
 
-    /**
-     * @inheritdoc
-     */
-    abstract validateResponse(responseData: TResponse): void;
+    return responseData;
+  }
 
-    /**
-     * 
-     * @param requestData The request data.
-     */
-    protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
+  /**
+   * @inheritdoc
+   */
+  abstract validateRequest(requestData: TRequest): void;
+
+  /**
+   * @inheritdoc
+   */
+  abstract validateResponse(responseData: TResponse): void;
+
+  /**
+   * 
+   * @param requestData The request data.
+   */
+  protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
 }

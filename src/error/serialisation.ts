@@ -3,13 +3,13 @@
  */
 export class SerialisationError<TModel> extends Error {
 
-    constructor(
-            public readonly message: string,
-            public readonly model: TModel,
-            public readonly cause?: any) {
+  constructor(
+      public readonly message: string,
+      public readonly model: TModel,
+      public readonly cause?: any) {
 
-        super(message);
-    }
+    super(message);
+  }
 }
 
 /**
@@ -17,10 +17,10 @@ export class SerialisationError<TModel> extends Error {
  */
 export class DeserialisationError extends Error {
 
-    constructor(
-            public readonly message: string,
-            public readonly cause?: any) {
+  constructor(
+      public readonly message: string,
+      public readonly cause?: any) {
 
-        super(message);
-    }
+    super(message);
+  }
 }
