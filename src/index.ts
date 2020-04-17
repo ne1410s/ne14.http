@@ -4,3 +4,4 @@ export * from './operation/json';
 export * from './error/operation';
 export * from './error/serialisation';
 export * from './error/validation';
+export * from './security/jwt';

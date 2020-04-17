@@ -8,12 +8,16 @@ export default {
   output: {
     name: pkg.displayName,
     file: pkg.browser,
-    format: 'umd'
+    format: 'umd',
+    globals: {
+      'jws': 'jws'
+    }
   },
   plugins: [
     typescript(),
-    terser({
-      include: '*.umd.min.js'
-    }),
+    // terser({
+    //   include: '*.umd.min.js',
+    //   output: { comments: true }
+    // }),
   ]
 };

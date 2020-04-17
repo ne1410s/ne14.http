@@ -5,15 +5,18 @@ import pkg from './package.json';
 // CommonJS and ES module builds (for node and bundlers)
 export default {
   input: 'src/index.ts',
-  external: [],
+  external: [
+    'jws'
+  ],
   output: [
     { file: pkg.main, format: 'cjs' },
     { file: pkg.module, format: 'es' }
   ],
   plugins: [
     typescript(),
-    terser({
-      include: ['*.cjs.min.js', '*.esm.min.js']
-    }),
+    // terser({
+    //   include: ['*.cjs.min.js', '*.esm.min.js'],
+    //   output: { comments: true },
+    // }),
   ]
 };
