@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "npx rollup -c -m -w",
+    "dev": "npx rollup -c rollup.browser.config.js -m -w",
     "clean": "npx rimraf dist",
     "build": "npm run clean && npx rollup -c",
     "test": "npm run build && mocha --exit",
