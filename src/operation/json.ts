@@ -1,10 +1,10 @@
-import { HttpOperation } from './http';
+import { HttpOperation, Verb, BodylessVerb } from './http';
 
 export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<TRequest, TResponse> {
 
   constructor(
     url: string,
-    verb: 'get' | 'head' | 'post' | 'put' | 'delete' = 'get',
+    verb: Verb = 'get',
     headers?: HeadersInit) {
 
     super(url, verb, headers);
@@ -36,7 +36,7 @@ export abstract class JsonBodylessOperation<TResponse> extends JsonOperation<any
 
   constructor(
     url: string,
-    verb: 'get' | 'head' = 'get',
+    verb: BodylessVerb = 'get',
     headers?: HeadersInit) {
 
     super(url, verb, headers);

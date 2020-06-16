@@ -3,6 +3,9 @@ import { DeserialisationError, SerialisationError } from '../error/serialisation
 
 require('isomorphic-fetch');
 
+export declare type Verb = 'get' | 'head' | 'post' | 'put' | 'patch' | 'delete';
+export declare type BodylessVerb = 'get' | 'head';
+
 export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
 
   readonly headers: Headers;
@@ -14,7 +17,7 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
 
   constructor(
       url: string,
-      public readonly verb: 'get' | 'head' | 'post' | 'put' | 'patch' | 'delete' = 'get',
+      public readonly verb: Verb = 'get',
       headers?: HeadersInit) {
 
     super();

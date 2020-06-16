@@ -1,4 +1,5 @@
 import { IOperation } from '../operation/base';
+import { Verb } from '../operation/http';
 
 /**
  * Thrown when an operation was not invoked successfully.
@@ -20,12 +21,23 @@ export class OperationInvocationError<TRequest, TResponse, TOperation extends IO
  */
 export class HttpResponseError extends Error {
 
-  constructor(
-      public readonly statusCode: number,
-      public readonly statusText: string,
-      public readonly headers: Headers,
-      public readonly body: string) {
+  body: string;
+  headers: Record<string, string>;
+  statusCode: number;
+  statusText: string;
+  url: string;
 
-    super();
+  constructor(
+      response: Response,
+      public readonly verb: Verb) {
+
+    super('Unexpected response');
+
+    this.headers = {};
+    response.headers.forEach((val, key) => this.headers[key] = val);
+    response.text().then(body => this.body = body);
+    this.statusCode = response.status;
+    this.statusText = response.statusText;
+    this.url = response.url;
   }
 }
