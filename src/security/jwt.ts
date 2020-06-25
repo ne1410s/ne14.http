@@ -2,16 +2,14 @@ import * as jws from 'jws';
 
 /** A client for consuming json web tokens. */
 export abstract class JwtClient {
-
   /** Parses the contents of a token. */
-  public static parse<T extends JwtToken>(token: string): T {   
+  public static parse<T extends JwtToken>(token: string): T {
     return JSON.parse(jws.decode(token).payload);
   }
 }
 
 /** Standard set of JWT properties. */
 export interface JwtToken {
-
   /** The token issuer. */
   iss: string;
 
@@ -29,7 +27,7 @@ export interface JwtToken {
 
   /** The start of the expiry window. */
   nbf: Date;
-  
+
   /** When the token was issued. */
   iat: Date;
 }

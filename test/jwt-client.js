@@ -3,16 +3,14 @@ const jws = require('jws');
 const ne_http = require('../dist/ne14_http.umd.min');
 
 describe('JwtClient', () => {
-
   it('should be a fair test', () => {
     const payloadIn = makePayload(10, 'Th3 B0$$', 'user42', null, ['admin', 'management']);
     const token = makeToken(payloadIn, 'teh-seekrut');
     expect(token).to.not.be.null;
     expect(token.length).to.be.greaterThan(10);
   });
-  
-  it('should parse a valid token', () => {
 
+  it('should parse a valid token', () => {
     const payloadIn = makePayload(10, 'Th3 B0$$', 'user42', null, ['admin', 'management']);
     const token = makeToken(payloadIn, 'teh-seekrut');
     const payloadOut = ne_http.JwtClient.parse(token);

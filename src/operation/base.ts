@@ -4,7 +4,6 @@ import { OperationInvocationError } from '../error/operation';
  * A contract for that which generates a response from a request.
  */
 export interface IOperation<TRequest, TResponse> {
-
   /**
    * Performs the commands necessary to yield a response.
    * @param requestData The request data.
@@ -30,22 +29,25 @@ export interface IOperation<TRequest, TResponse> {
 /**
  * Base implementation for that which generates a response from a request.
  */
-export abstract class OperationBase<TRequest, TResponse> implements IOperation<TRequest, TResponse> {
-
+export abstract class OperationBase<TRequest, TResponse>
+  implements IOperation<TRequest, TResponse> {
   /**
    * @inheritdoc
    */
   async invoke(requestData: TRequest): Promise<TResponse> {
-
     this.validateRequest(requestData);
 
     let responseData: TResponse;
 
     try {
       responseData = await this.invokeInternal(requestData);
-    }
-    catch (error) {
-      throw new OperationInvocationError('An error occurred invoking the operation', this, requestData, error);
+    } catch (error) {
+      throw new OperationInvocationError(
+        'An error occurred invoking the operation',
+        this,
+        requestData,
+        error
+      );
     }
 
     this.validateResponse(responseData);
@@ -64,7 +66,7 @@ export abstract class OperationBase<TRequest, TResponse> implements IOperation<T
   abstract validateResponse(responseData: TResponse): void;
 
   /**
-   * 
+   *
    * @param requestData The request data.
    */
   protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;

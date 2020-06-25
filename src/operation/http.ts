@@ -6,8 +6,10 @@ require('isomorphic-fetch');
 export declare type Verb = 'get' | 'head' | 'post' | 'put' | 'patch' | 'delete';
 export declare type BodylessVerb = 'get' | 'head';
 
-export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<TRequest, TResponse> {
-
+export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<
+  TRequest,
+  TResponse
+> {
   readonly headers: Headers;
 
   protected _url: string;
@@ -15,28 +17,24 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
     return this._url;
   }
 
-  constructor(
-      url: string,
-      public readonly verb: Verb = 'get',
-      headers?: HeadersInit) {
-
+  constructor(url: string, public readonly verb: Verb = 'get', headers?: HeadersInit) {
     super();
     this.headers = new Headers(headers);
     this._url = url;
   }
 
   /**
-   * 
+   *
    * @param requestData Request data.
    */
-  async abstract serialise(requestData: TRequest): Promise<string>;
+  abstract async serialise(requestData: TRequest): Promise<string>;
 
   /**
-   * 
+   *
    * @param response The http response.
    * @param requestData Request data.
    */
-  async abstract deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
+  abstract async deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
 
   /**
    * @inheritdoc
@@ -44,7 +42,6 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
    * @throws {DeserialisationError}
    */
   protected async invokeInternal(requestData: TRequest): Promise<TResponse> {
-
     let runUrl = this.url;
     const runParams: RequestInit = {
       method: this.verb,
@@ -53,16 +50,18 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
 
     // Incorporate request data according to verb
     if (requestData != null) {
-
       try {
         if (this.verb === 'get' || this.verb === 'head') {
           runUrl = `${this.url}?${this.serialiseQuery(requestData)}`;
-
         } else {
           runParams.body = await this.serialise(requestData);
         }
       } catch (error) {
-        throw new SerialisationError('An error occurred serialising the request', requestData, error);
+        throw new SerialisationError(
+          'An error occurred serialising the request',
+          requestData,
+          error
+        );
       }
     }
 
@@ -70,13 +69,14 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<T
 
     try {
       return await this.deserialise(response, requestData);
-    }
-    catch (error) {
+    } catch (error) {
       throw new DeserialisationError('An error occurred deserialising the response', error);
     }
   }
 
   private serialiseQuery(requestData: TRequest): string {
-    return Object.keys(requestData).map(k => k + '=' + encodeURIComponent((requestData as any)[k])).join('&');
+    return Object.keys(requestData)
+      .map((k) => k + '=' + encodeURIComponent((requestData as any)[k]))
+      .join('&');
   }
 }

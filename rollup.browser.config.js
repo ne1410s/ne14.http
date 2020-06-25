@@ -4,18 +4,14 @@ import pkg from './package.json';
 // UMD build (for browsers)
 export default {
   input: 'src/index.ts',
-  external: [
-    'jws'
-  ],
+  external: ['jws'],
   output: {
     name: pkg.displayName,
     file: pkg.browser,
     format: 'umd',
     globals: {
-      'jws': 'jws'
-    }
+      jws: 'jws',
+    },
   },
-  plugins: [
-    typescript()
-  ]
+  plugins: [typescript()],
 };
