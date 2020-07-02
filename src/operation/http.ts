@@ -1,5 +1,6 @@
 import { OperationBase } from './base';
 import { DeserialisationError, SerialisationError } from '../error/serialisation';
+import { Ctor } from '@ne1410s/codl';
 
 require('isomorphic-fetch');
 
@@ -17,8 +18,14 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<
     return this._url;
   }
 
-  constructor(url: string, public readonly verb: Verb = 'get', headers?: HeadersInit) {
-    super();
+  constructor(
+    url: string,
+    public readonly verb: Verb = 'get',
+    headers?: HeadersInit,
+    requestType?: Ctor<TRequest>,
+    responseType?: Ctor<TResponse>
+  ) {
+    super(requestType, responseType);
     this.headers = new Headers(headers);
     this._url = url;
   }

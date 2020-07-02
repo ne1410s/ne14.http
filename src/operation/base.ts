@@ -34,6 +34,17 @@ export interface IOperation<TRequest, TResponse> {
 export abstract class OperationBase<TRequest, TResponse>
   implements IOperation<TRequest, TResponse> {
   /**
+   * Creates a new instance. Parameters are model prototypes. They are only
+   * needed if automatic validation (of @ne1410s/codl decorators) is required.
+   * @param requestType The request type.
+   * @param responseType The response type.
+   */
+  constructor(
+    private readonly requestType?: Ctor<TRequest>,
+    private readonly responseType?: Ctor<TResponse>
+  ) {}
+
+  /**
    * @inheritdoc
    */
   async invoke(requestData: TRequest): Promise<TResponse> {
@@ -57,45 +68,10 @@ export abstract class OperationBase<TRequest, TResponse>
     return responseData;
   }
 
-  /**
-   * @inheritdoc
-   */
-  abstract validateRequest(requestData: TRequest): void;
-
-  /**
-   * @inheritdoc
-   */
-  abstract validateResponse(responseData: TResponse): void;
-
-  /**
-   *
-   * @param requestData The request data.
-   */
-  protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
-}
-
-/**
- * Base implementation for that which generates a response from a request while
- * validating both items, according to @ne1410s/codl decorators.
- */
-export abstract class CodlOperationBase<TRequest, TResponse> extends OperationBase<
-  TRequest,
-  TResponse
-> {
-  /**
-   * Creates a new instance. Sources for the model prototypes must be supplied.
-   * @param requestType The request type.
-   * @param responseType The response type.
-   */
-  constructor(
-    private readonly requestType: Ctor<TRequest>,
-    private readonly responseType: Ctor<TResponse>
-  ) {
-    super();
-  }
-
   /** Validates a request according to @ne1410s/codl decorators. */
   validateRequest(requestData: TRequest): void {
+    if (!this.requestType) return;
+
     const summary = ReflectValidation.validate(requestData, this.requestType);
     if (!summary.valid) {
       const errors: string[] = [];
@@ -108,6 +84,8 @@ export abstract class CodlOperationBase<TRequest, TResponse> extends OperationBa
 
   /** Validates the response according to @ne1410s/codl decorators. */
   validateResponse(responseData: TResponse): void {
+    if (!this.responseType) return;
+
     const summary = ReflectValidation.validate(responseData, this.responseType);
     if (!summary.valid) {
       const errors: string[] = [];
@@ -117,4 +95,10 @@ export abstract class CodlOperationBase<TRequest, TResponse> extends OperationBa
       throw new ValidationError('The response is invalid', responseData, errors);
     }
   }
+
+  /**
+   *
+   * @param requestData The request data.
+   */
+  protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
 }

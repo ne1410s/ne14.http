@@ -1,11 +1,18 @@
 import { HttpOperation, Verb, BodylessVerb } from './http';
+import { Ctor } from '@ne1410s/codl';
 
 export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<
   TRequest,
   TResponse
 > {
-  constructor(url: string, verb: Verb = 'get', headers?: HeadersInit) {
-    super(url, verb, headers);
+  constructor(
+    url: string,
+    verb: Verb = 'get',
+    headers?: HeadersInit,
+    requestType?: Ctor<TRequest>,
+    responseType?: Ctor<TResponse>
+  ) {
+    super(url, verb, headers, requestType, responseType);
 
     this.headers.set('content-type', 'application/json');
     this.headers.set('accept', 'application/json');
@@ -30,12 +37,13 @@ export abstract class JsonOperation<TRequest, TResponse> extends HttpOperation<
 }
 
 export abstract class JsonBodylessOperation<TResponse> extends JsonOperation<any, TResponse> {
-  constructor(url: string, verb: BodylessVerb = 'get', headers?: HeadersInit) {
-    super(url, verb, headers);
-  }
-
-  validateRequest(requestData: any): void {
-    // Do nothing by default
+  constructor(
+    url: string,
+    verb: BodylessVerb = 'get',
+    headers?: HeadersInit,
+    responseType?: Ctor<TResponse>
+  ) {
+    super(url, verb, headers, null, responseType);
   }
 
   async invoke(): Promise<TResponse> {
