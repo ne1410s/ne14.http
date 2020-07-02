@@ -51,6 +51,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@ne1410s/codl": "0.0.4",
     "isomorphic-fetch": "^2.2.1",
     "jws": "^4.0.0"
   }
