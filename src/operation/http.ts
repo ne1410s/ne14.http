@@ -34,14 +34,14 @@ export abstract class HttpOperation<TRequest, TResponse> extends OperationBase<
    *
    * @param requestData Request data.
    */
-  abstract async serialise(requestData: TRequest): Promise<string>;
+  abstract serialise(requestData: TRequest): Promise<string>;
 
   /**
    *
    * @param response The http response.
    * @param requestData Request data.
    */
-  abstract async deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
+  abstract deserialise(response: Response, requestData: TRequest): Promise<TResponse>;
 
   /**
    * @inheritdoc

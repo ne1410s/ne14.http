@@ -100,5 +100,5 @@ export abstract class OperationBase<TRequest, TResponse>
    *
    * @param requestData The request data.
    */
-  protected abstract async invokeInternal(requestData: TRequest): Promise<TResponse>;
+  protected abstract invokeInternal(requestData: TRequest): Promise<TResponse>;
 }
