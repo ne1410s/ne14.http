@@ -1,6 +1,6 @@
 {
   "name": "@ne1410s/http",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "description": "Lightweight ES5 script to provide http utilities",
   "main": "dist/ne14_http.cjs.min.js",
   "module": "dist/ne14_http.esm.min.js",
