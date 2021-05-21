@@ -32,7 +32,8 @@ export interface IOperation<TRequest, TResponse> {
  * Base implementation for that which generates a response from a request.
  */
 export abstract class OperationBase<TRequest, TResponse>
-  implements IOperation<TRequest, TResponse> {
+  implements IOperation<TRequest, TResponse>
+{
   /**
    * Creates a new instance. Parameters are model prototypes. They are only
    * needed if automatic validation (of @ne1410s/codl decorators) is required.
