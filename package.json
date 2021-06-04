@@ -41,17 +41,17 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@types/jws": "^3.2.3",
-    "@types/node": "^15.6.0",
+    "@types/node": "^15.12.1",
     "chai": "^4.3.4",
     "mocha": "^8.4.0",
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.48.0",
+    "rollup": "^2.50.6",
     "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@ne1410s/codl": "^0.0.24",
+    "@ne1410s/codl": "^0.0.25",
     "isomorphic-fetch": "^3.0.0",
     "jws": "^4.0.0"
   }
